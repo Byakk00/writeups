@@ -1,2 +1,3 @@
 # Writeups
-My writeups for tasks given by Cryptonite
+
+This Repository will contain all my writeups for Python and Linux Luminarium 
