@@ -164,7 +164,111 @@ Learnt how to change multiple directories.
 
 ***
 
-# Challenge 5:
+# Challenge 5: Implicit relative paths, from /
+
+Now you're familiar with the concept of referring to absolute paths and changing directories. If you put in absolute paths everywhere, then it really doesn't matter what directory you are in, as you likely found out in the previous three challenges.
+
+However, the current working directory does matter for relative paths.
+
+A relative path is any path that does not start at root (i.e., it does not start with /).
+A relative path is interpreted relative to your current working directory (cwd).
+Your cwd is the directory that your prompt is currently located at.
+This means how you specify a particular file, depends on where the terminal prompt is located.
+
+Imagine we want to access some file located at /tmp/a/b/my_file.
+
+If my cwd is /, then a relative path to the file is tmp/a/b/my_file.
+If my cwd is /tmp, then a relative path to the file is a/b/my_file.
+If my cwd is /tmp/a/b/c, then a relative path to the file is ../my_file. The .. refers to the parent directory.
+Changing directories and invoking a program are two separate actions. For example:
+
+```sh
+hacker@dojo:~$ cd /
+hacker@dojo:/$ bin/echo Hello
+Hello
+```
+
+The first command changes the current working directory to /. The second command invokes /bin/echo using the relative path bin/echo.
+
+Let's try it here! First, change your current working directory to /. Then invoke /challenge/run using a relative path. For this level, I'll give you a hint. Your relative path starts with the letter c 😊
+
+## Solution:
+
+Changed directory to '/' then ran '/challenge/run' which gives error since its absolute path and then using 'challenge/run', I get the flag since it was relative path.
+
+```sh
+hacker@paths~implicit-relative-paths-from-:~$ cd /
+hacker@paths~implicit-relative-paths-from-:/$ /challenge/run
+Incorrect...
+You invoked this challenge with an absolute path. This challenge needs a relative path!
+hacker@paths~implicit-relative-paths-from-:/$ challenge/run
+Correct!!!
+challenge/run is a relative path, invoked from the right directory!
+Here is your flag:
+pwn.college{0NKoz6Dwxf0EG0RUditulp-BQlw.QX5QTN0wiM1EjNwIzW}
+```
+
+## Flag: 
+
+```
+pwn.college{0NKoz6Dwxf0EG0RUditulp-BQlw.QX5QTN0wiM1EjNwIzW}
+```
+
+### Notes:
+
+- A relative path is interpreted relative to your current working directory (cwd). Your cwd is the directory that your prompt is currently located at.
+- Learnt how to use implicit relative paths in different directories.
+
+
+***
+
+# Challenge 6: Explicit relative paths, from /
+
+Previously, your relative path was "naked": it directly specified the directory to descend into from the current directory. In this level, we're going to explore more explicit relative paths.
+
+In most operating systems, including Linux, every directory has two implicit entries that you can reference in paths: . and ... The first, ., refers right to the same directory, so the following absolute paths are all identical to each other:
+
+/challenge
+/challenge/.
+/challenge/./././././././././
+/./././challenge/././
+The following relative paths are also all identical to each other:
+
+challenge
+./challenge
+./././challenge
+challenge/.
+Of course, if your current working directory is /, the above relative paths are equivalent to the above absolute paths.
+
+This challenge will get you using . in your relative paths. Your current working directory must be /, and the relative path you use to invoke the challenge must begin with .. Get ready!
+
+## Solution:
+
+[Solution]
+
+```sh
+$ [Put Code/Bash Commands Here]
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+# Challenge 7: [Challenge Name]
 
 [Challenge Description copied from pwn.college]
 
@@ -194,67 +298,7 @@ $ [Put Code/Bash Commands Here]
 
 ***
 
-# Challenge 2: [Challenge Name]
-
-[Challenge Description copied from pwn.college]
-
-## Solution:
-
-[Solution]
-
-```sh
-$ [Put Code/Bash Commands Here]
-```
-
-## Flag: 
-
-```
-[Put Flag Here]
-```
-
-### Notes:
-
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
-
-***
-
-# Challenge 1: [Challenge Name]
-
-[Challenge Description copied from pwn.college]
-
-## Solution:
-
-[Solution]
-
-```sh
-$ [Put Code/Bash Commands Here]
-```
-
-## Flag: 
-
-```
-[Put Flag Here]
-```
-
-### Notes:
-
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
-
-***
-
-# Challenge 2: [Challenge Name]
+# Challenge 8: [Challenge Name]
 
 [Challenge Description copied from pwn.college]
 
