@@ -36,7 +36,7 @@ pwn.college{cHEWO-r6Fuj9VI452cJSFIr-IYf.QX3YjM1wiM1EjNwIzW}
 
 ***
 
-# Challenge 2: Intro to Arguements
+# Challenge 2: Intro to Arguments
 
 Let's try something more complicated: a command with arguments, which is what we call additional data passed to the command. When you type a line of text and hit enter, the shell actually parses your input into a command and its arguments. The first word is the command, and the subsequent words are arguments. Observe:
 
@@ -78,7 +78,7 @@ pwn.college{4O1QTQYjRbL-IqKls8kei0RqDNS.QX4YjM1wiM1EjNwIzW}
 
 ### Notes:
 
-- Learnt about arguements.
+- Learnt about arguments.
 
 ***
 
