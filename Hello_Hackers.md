@@ -78,7 +78,7 @@ pwn.college{4O1QTQYjRbL-IqKls8kei0RqDNS.QX4YjM1wiM1EjNwIzW}
 
 ### Notes:
 
-- Learnt about arguments.
+Learnt about arguments.
 
 ***
 
