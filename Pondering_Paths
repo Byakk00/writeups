@@ -1,0 +1,249 @@
+
+# Challenge 1: The Root
+
+Alright, so the filesystem starts at /. Under that, there are a whole mess of other directories, configuration files, programs, and, most importantly, flags. In this level, we've added a program right in /, called pwn, that will give you the flag. All you need to do for this level is to invoke this program!
+
+You can invoke a program by providing its path on the command line. In this case, you'll be giving the exact path, starting from /, so the path would be /pwn. This style of path, one that starts with the root directory, is referred to as an "absolute path".
+
+Start the challenge, launch a terminal, invoke the pwn program using its absolute path, and Capture that Flag! Good luck!
+
+## Solution:
+
+Enter '/pwn' to get the flag.
+
+```sh
+hacker@paths~the-root:~$ /pwn
+BOOM!!!
+Here is your flag:
+pwn.college{oPwz2NIGNjHtBPv5i2eEfgS8765.QX4cTO0wiM1EjNwIzW}
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+# Challenge 2: [Challenge Name]
+
+[Challenge Description copied from pwn.college]
+
+## Solution:
+
+[Solution]
+
+```sh
+$ [Put Code/Bash Commands Here]
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+# Challenge 1: [Challenge Name]
+
+[Challenge Description copied from pwn.college]
+
+## Solution:
+
+[Solution]
+
+```sh
+$ [Put Code/Bash Commands Here]
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+# Challenge 2: [Challenge Name]
+
+[Challenge Description copied from pwn.college]
+
+## Solution:
+
+[Solution]
+
+```sh
+$ [Put Code/Bash Commands Here]
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+# Challenge 1: [Challenge Name]
+
+[Challenge Description copied from pwn.college]
+
+## Solution:
+
+[Solution]
+
+```sh
+$ [Put Code/Bash Commands Here]
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+# Challenge 2: [Challenge Name]
+
+[Challenge Description copied from pwn.college]
+
+## Solution:
+
+[Solution]
+
+```sh
+$ [Put Code/Bash Commands Here]
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+# Challenge 1: [Challenge Name]
+
+[Challenge Description copied from pwn.college]
+
+## Solution:
+
+[Solution]
+
+```sh
+$ [Put Code/Bash Commands Here]
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+# Challenge 2: [Challenge Name]
+
+[Challenge Description copied from pwn.college]
+
+## Solution:
+
+[Solution]
+
+```sh
+$ [Put Code/Bash Commands Here]
+```
+
+## Flag: 
+
+```
+[Put Flag Here]
+```
+
+### Notes:
+
+- [Any Notes You Want To Make Regarding The Challenges]
+- [Any Thing You Learned From Solving The Challenge]
+
+### Resources:
+
+- [Any Resources You Used While Solving The Challenge]
+
+
+***
+
+...
