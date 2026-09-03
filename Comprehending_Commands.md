@@ -835,20 +835,23 @@ WARNING: If a previous experiment left something at /home/hacker/not-the-flag, r
 
 ## Solution:
 
-[Solution]
+Used 'ln -s /flag ~/not-the-flag' to link files and then run '/challenge/catflag' to get the flag.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@commands~linking-files:~$ ln -s /flag ~/not-the-flag
+hacker@commands~linking-files:~$ /challenge/catflag
+About to read out the /home/hacker/not-the-flag file!
+pwn.college{o3shLazV0TuS7VGsCb56I4PKCi3.QX5ETN1wiM1EjNwIzW}
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{o3shLazV0TuS7VGsCb56I4PKCi3.QX5ETN1wiM1EjNwIzW}
 ```
 
 ### Notes:
 
-
+Learnt about soft and hard links and how to use them.
 
 ***
