@@ -462,123 +462,282 @@ In this challenge, /challenge/run will print out the flag, but between each char
 
 ## Solution:
 
-[Solution]
+Ran ' /challenge/run | sed "s/FAKEFLAG//g" ' to filter the output to get the flag.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@piping~filtering-with-sed:~$ /challenge/run | sed "s/FAKEFLAG//g"
+pwn.college{gWx9Z0x6XJ8V3fr1YCWxDtio6t5.01NxQTMywiM1EjNwIzW} 
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{gWx9Z0x6XJ8V3fr1YCWxDtio6t5.01NxQTMywiM1EjNwIzW}
 ```
 
 ### Notes:
 
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
+Learned how sed performs in-place pattern substitution on streamed text, making it ideal for cleaning or transforming data when useful and unwanted content are mixed within the same line.
 
 ***
 
-# Challenge 1: [Challenge Name]
+# Challenge 11: Duplicating piped data with tee
 
-[Challenge Description copied from pwn.college]
+When you pipe data from one command to another, you of course no longer see it on your screen. This is not always desired: for example, you might want to see the data as it flows through between your commands to debug unintended outcomes (e.g., "why did that second command not work???").
+
+Luckily, there is a solution! The tee command, named after a "T-splitter" from plumbing pipes, duplicates data flowing through your pipes to any number of files provided on the command line. For example:
+
+```sh
+hacker@dojo:~$ echo hi | tee pwn college
+hi
+hacker@dojo:~$ cat pwn
+hi
+hacker@dojo:~$ cat college
+hi
+hacker@dojo:~$
+```
+
+As you can see, by providing two files to tee, we ended up with three copies of the piped-in data: one to stdout, one to the pwn file, and one to the college file. You can imagine how you might use this to debug things going haywire:
+
+```sh
+hacker@dojo:~$ command_1 | command_2
+Command 2 failed!
+hacker@dojo:~$ command_1 | tee cmd1_output | command_2
+Command 2 failed!
+hacker@dojo:~$ cat cmd1_output
+Command 1 failed: must pass --succeed!
+hacker@dojo:~$ command_1 --succeed | command_2
+Commands succeeded!
+```
+
+Now, you try it! This process' /challenge/pwn must be piped into /challenge/college, but you'll need to intercept the data to see what pwn needs from you! Use tee to duplicate your first attempt into a file, inspect the saved output, and then retry the pipeline with what you learned.
 
 ## Solution:
 
-[Solution]
+Ran '/challenge/pwn | tee pwn | /challenge/college' to get piped data in file named pwn then read it using 'cat pwn'. Finally analysing the secret and passing correct argument (/challenge/pwn --secret ARJYcruH | /challenge/college), got the flag.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@piping~duplicating-piped-data-with-tee:~$ /challenge/pwn | tee pwn | /challenge/college
+Processing...
+The input to 'college' does not contain the correct secret code! This code 
+should be provided by the 'pwn' command. HINT: use 'tee' to save the first 
+attempt to a file, inspect the saved output, and then retry the pipeline with 
+what you learned.
+hacker@piping~duplicating-piped-data-with-tee:~$ cat pwn
+Usage: /challenge/pwn --secret [SECRET_ARG]
+
+SECRET_ARG should be "ARJYcruH"
+hacker@piping~duplicating-piped-data-with-tee:~$ /challenge/pwn --secret ARJYcruH | /challenge/college
+Processing...
+Correct! Passing secret value to /challenge/college...
+Great job! Here is your flag:
+pwn.college{ARJYcruHLA2fGmstUTWVEe2Towq.QXxITO0wiM1EjNwIzW}
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{ARJYcruHLA2fGmstUTWVEe2Towq.QXxITO0wiM1EjNwIzW}
 ```
 
 ### Notes:
 
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
+Learned how tee duplicates piped data, allowing simultaneous inspection and forwarding of a stream.
 
 ***
 
-# Challenge 2: [Challenge Name]
+# Challenge 12: Process substitution for input
 
-[Challenge Description copied from pwn.college]
+Sometimes you need to compare the output of two commands rather than two files. You might think to save each output to a file first:
+
+```sh
+hacker@dojo:~$ command1 > file1
+hacker@dojo:~$ command2 > file2
+hacker@dojo:~$ diff file1 file2
+```
+
+But there's a more elegant way! Linux follows the philosophy that "everything is a file". That is, the system strives to provide file-like access to most resources, including the input and output of running programs! The shell follows this philosophy, allowing you to, for example, use any utility that takes file arguments on the command line and hook it up to the output of programs, as you learned in the previous few levels.
+
+Interestingly, we can go further, and hook input and output of programs to arguments of commands. This is done using Process Substitution. For reading from a command (input process substitution), use <(command). When you write <(command), bash will run the command and hook up its output to a temporary file that it will create. This isn't a real file, of course, it's what's called a named pipe, in that it has a file name:
+
+```sh
+hacker@dojo:~$ echo <(echo hi)
+/dev/fd/63
+hacker@dojo:~$
+```
+
+Where did /dev/fd/63 come from? bash replaced <(echo hi) with the path of the named pipe file that's hooked up to the command's output! While the command is running, reading from this file will read data from the standard output of the command. Typically, this is done using commands that take input files as arguments:
+
+```sh
+hacker@dojo:~$ cat <(echo hi)
+hi
+hacker@dojo:~$
+```
+
+Of course, you can specify this multiple times:
+
+```sh
+hacker@dojo:~$ echo <(echo pwn) <(echo college)
+/dev/fd/63 /dev/fd/64
+hacker@dojo:~$ cat <(echo pwn) <(echo college)
+pwn
+college
+hacker@dojo:~$
+```
+
+Now for your challenge! Recall what you learned in the diff challenge from Comprehending Commands. In that challenge, you diffed two files. Now, you'll diff two sets of command outputs: /challenge/print_decoys, which will print a bunch of decoy flags, and /challenge/print_decoys_and_flag which will print those same decoys plus the real flag.
+
+Use process substitution with diff to compare the outputs of these two programs and find your flag!
 
 ## Solution:
 
-[Solution]
+Ran 'diff <(/challe
+nge/print_decoys) <(/challenge/print_decoys_and_flag)' so it creates two temp files which have output of those two commands from which we get the different line using 'diff'. Using this I got the flag.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@piping~process-substitution-for-input:~$ diff <(/challe
+nge/print_decoys) <(/challenge/print_decoys_and_flag)
+64a65
+> pwn.college{k85Fel1duSo8anFkkpvy-cmaApM.0lNwMDOxwiM1EjNwIzW}
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{k85Fel1duSo8anFkkpvy-cmaApM.0lNwMDOxwiM1EjNwIzW}
 ```
 
 ### Notes:
 
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
+Learned how process substitution (<(command)) allows the output of a command to be treated as a temporary file.
 
 ***
 
-# Challenge 1: [Challenge Name]
+# Challenge 13: Writing to multiple programs
 
-[Challenge Description copied from pwn.college]
+Now you've learned that process substitution can make command output appear as files for reading with <(command). But you can also use process substitution for writing to commands!
+
+You can duplicate data to two files with tee:
+
+```sh
+hacker@dojo:~$ echo HACK | tee THE > PLANET
+hacker@dojo:~$ cat THE
+HACK
+hacker@dojo:~$ cat PLANET
+HACK
+hacker@dojo:~$
+```
+
+And you've used tee to duplicate data to a file and a command:
+
+```sh
+hacker@dojo:~$ echo HACK | tee THE | cat
+HACK
+hacker@dojo:~$ cat THE
+HACK
+hacker@dojo:~$
+```
+
+But what about duplicating to two commands? As tee says in its manpage, it's designed to write to files and to standard output:
+
+```sh
+TEE(1)                           User Commands                          TEE(1)
+
+NAME
+       tee - read from standard input and write to standard output and files
+```
+
+But wait! You just learned that bash can make commands look like files using process substitution! For writing to a command (output process substitution), use >(command). If you write an argument of >(rev), bash will run the rev command (this command reads data from standard input, reverses its order, and writes it to standard output!), but hook up its input to a temporary named pipe file. When commands write to this file, the data goes to the standard input of the command:
+
+```sh
+hacker@dojo:~$ echo HACK | rev
+KCAH
+hacker@dojo:~$ echo HACK | tee >(rev)
+HACK
+KCAH
+```
+
+Above, the following sequence of events took place:
+
+1. bash started up the rev command, hooking a named pipe (presumably /dev/fd/63) to rev's standard input
+2. bash started up the tee command, hooking a pipe to its standard input, and replacing the first argument to tee with /dev/fd/63. tee never even saw the argument >(rev); the shell substituted it before launching tee
+3. bash used the echo builtin to print HACK into tee's standard input
+4. tee read HACK, wrote it to standard output, and then wrote it to /dev/fd/63 (which is connected to rev's stdin)
+5. rev read HACK from its standard input, reversed it, and wrote KCAH to standard output
+Now it's your turn! In this challenge, we have /challenge/hack, /challenge/the, and /challenge/planet. Run the /challenge/hack command, and duplicate its output as input to both the /challenge/the and the /challenge/planet commands! Remember that tee can take multiple output targets, and >(command) is one kind of target. Scroll back through the previous challenges "Duplicating piped data with tee" and "Process substitution for input" if you need a refresher on this method.
+
+Trivia!
+
+The observant learner will realize that the following are equivalent:
+
+```sh
+hacker@dojo:~$ echo hi | rev
+ih
+hacker@dojo:~$ echo hi > >(rev)
+ih
+hacker@dojo:~$
+```
+
+More than one way to pipe data! Of course, the second route is way harder to read and also harder to expand. For example:
+
+```sh
+hacker@dojo:~$ echo hi | rev | rev
+hi
+hacker@dojo:~$ echo hi > >(rev | rev)
+hi
+hacker@dojo:~$
+```
+
+That's just silly! The lesson here is that, while Process Substitution is a powerful tool in your toolbox, it's a very specialized tool; don't use it for everything!
 
 ## Solution:
 
-[Solution]
+Ran '/challenge/hack | tee >(/challenge/the) | /challenge/planet' so output is simultaneously transferred to both of the other commands.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@piping~writing-to-multiple-programs:~$ /challenge/hack | tee >(/challenge/the) >(/challenge/planet)
+This secret data must directly and simultaneously make it to /challenge/the and 
+/challenge/planet. Don't try to copy-paste it; it changes too fast.
+19648255782348314131
+Congratulations, you have duplicated data into the input of two programs! Here 
+is your flag:
+pwn.college{8pgHlN6fsmBQQK1sa76w_RX-LiV.QXwgDN1wiM1EjNwIzW}
+hacker@piping~writing-to-multiple-programs:~$ /challenge/hack | tee >(/challenge/the) | /challenge/planet
+Congratulations, you have duplicated data into the input of two programs! Here 
+is your flag:
+pwn.college{8pgHlN6fsmBQQK1sa76w_RX-LiV.QXwgDN1wiM1EjNwIzW}
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{8pgHlN6fsmBQQK1sa76w_RX-LiV.QXwgDN1wiM1EjNwIzW}
 ```
 
 ### Notes:
 
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
+- Process substitution created a file-like destination connected to '/challenge/the', while the original output stream continued through the pipe to '/challenge/planet'.
+- Learned how output process substitution (>(command)) allows a program's input to be exposed as a writable file-like target. 
 
 ***
 
-# Challenge 2: [Challenge Name]
+# Challenge 14: Split-piping stderr and stdout
 
-[Challenge Description copied from pwn.college]
+Now, let's put your knowledge together. You must master the ultimate piping task: redirect stdout to one program and stderr to another.
+
+The challenge here, of course, is that the | operator links the stdout of the left command with the stdin of the right command. Of course, you've used 2>&1 to redirect stderr into stdout and, thus, pipe stderr over, but this then mixes stderr and stdout. How to keep it unmixed?
+
+You will need to combine your knowledge of >(), 2>, and |. How to do it is a task I'll leave to you.
+
+In this challenge, you have:
+
+- /challenge/hack: this produces data on stdout and stderr
+- /challenge/the: you must redirect hack's stderr to this program
+- /challenge/planet: you must redirect hack's stdout to this program
+  
+Go get the flag!
+
+BONUS: For some added difficulty, find a solution that doesn't use |.
 
 ## Solution:
 
