@@ -265,123 +265,200 @@ In preparation for more complex levels, we want you to:
 
 ## Solution:
 
-[Solution]
+Ran '/challenge/run > /tmp/data.txt', then got the flag by 'grep "pwn.college" /tmp/data.txt'.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@piping~grepping-stored-results:~$ /challenge/run > /tmp/data.txt
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge will check that output is redirected to a specific file path : /tmp/data.txt
+[INFO] - the challenge will output a reward file if all the tests pass : /challenge/.data.txt
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /challenge/.data.txt file.
+
+[TEST] You should have redirected my stdout to a file called /tmp/data.txt. Checking...
+
+[HINT] File descriptors are inherited from the parent, unless the FD_CLOEXEC is set by the parent on the file descriptor.
+[HINT] For security reasons, some programs, such as python, do this by default in certain cases. Be careful if you are
+[HINT] creating and trying to pass in FDs in python.
+
+[PASS] The file at the other end of my stdout looks okay!
+[PASS] Success! You have satisfied all execution requirements.
+hacker@piping~grepping-stored-results:~$ grep "pwn.college" /tmp/data.txt 
+pwn.college{UtDfc-zL1ATAI3XFP1XyK679HYO.QX4EDO0wiM1EjNwIzW}
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{UtDfc-zL1ATAI3XFP1XyK679HYO.QX4EDO0wiM1EjNwIzW}
 ```
 
 ### Notes:
 
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
+Learned how output redirection and text searching can be combined to process large amounts of command output efficiently.
 
 ***
 
-# Challenge 1: [Challenge Name]
+# Challenge 7: Grepping live output
 
-[Challenge Description copied from pwn.college]
+It turns out that you can "cut out the middleman" and avoid the need to store results to a file, like you did in the last level. You can do this by using the | (pipe) operator. Standard output from the command to the left of the pipe will be connected to (piped into) the standard input of the command to the right of the pipe. For example:
+
+```sh
+hacker@dojo:~$ echo no-no | grep yes
+hacker@dojo:~$ echo yes-yes | grep yes
+yes-yes
+hacker@dojo:~$ echo yes-yes | grep no
+hacker@dojo:~$ echo no-no | grep no
+no-no
+```
+
+Now try it for yourself! /challenge/run will output a hundred thousand lines of text, including the flag. grep for the flag!
 
 ## Solution:
 
-[Solution]
+Ran ' /challenge/run | grep "pwn.college" ' to get the flag.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@piping~grepping-live-output:~$ /challenge/run | grep "pwn.college"
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge checks for a specific process at the other end of stdout : grep
+[INFO] - the challenge will output a reward file if all the tests pass : /challenge/.data.txt
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /challenge/.data.txt file.
+
+[TEST] You should have redirected my stdout to another process. Checking...
+[TEST] Performing checks on that process!
+
+[INFO] The process' executable is /nix/store/sacz532zgiacvg7mva9v6gbfmyw427i3-gnugrep-3.12/bin/grep.
+[INFO] This might be different than expected because of symbolic links (for example, from /usr/bin/python to /usr/bin/python3 to /usr/bin/python3.8).
+[INFO] To pass the checks, the executable must be grep.
+
+[PASS] You have passed the checks on the process on the other end of my stdout!
+[PASS] Success! You have satisfied all execution requirements.
+pwn.college{sEGdtEn-103FSREoQWlfpEfwjph.QX5EDO0wiM1EjNwIzW}
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{sEGdtEn-103FSREoQWlfpEfwjph.QX5EDO0wiM1EjNwIzW}
 ```
 
 ### Notes:
 
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
+Learned how the pipe operator (|) connects commands by streaming stdout from one process into stdin of another, eliminating the need for intermediate files.
 
 ***
 
-# Challenge 2: [Challenge Name]
+# Challenge 8: Grepping errors
 
-[Challenge Description copied from pwn.college]
+You know how to redirect errors to a file, and you know how to pipe output to another program, such as grep. But what if you wanted to grep through errors directly?
+
+The > operator redirects a given file descriptor to a file, and you've used 2> to redirect fd 2, which is standard error. The | operator redirects only standard output to another program, and there is no 2| form of the operator! It can only redirect standard output (file descriptor 1).
+
+Luckily, where there's a shell, there's a way!
+
+The shell has a >& operator, which redirects a file descriptor to another file descriptor. This means that we can have a two-step process to grep through errors: first, we redirect standard error to standard output (2>& 1) and then pipe the now-combined stderr and stdout as normal (|)!
+
+Try it now! Like the last level, this level will overwhelm you with output, but this time on standard error. grep through it to find the flag!
 
 ## Solution:
 
-[Solution]
+Ran ' /challenge/run 2>& 1 | grep "pwn.college" ' to get the flag.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@piping~grepping-errors:~$ /challenge/run 2>& 1 | grep "pwn.college"
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge checks for a specific process at the other end of stderr : grep
+[INFO] - the challenge will output a reward file if all the tests pass : /challenge/.data.txt
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /challenge/.data.txt file.
+
+[TEST] You should have redirected my stderr to another process. Checking...
+[TEST] Performing checks on that process!
+
+[INFO] The process' executable is /nix/store/sacz532zgiacvg7mva9v6gbfmyw427i3-gnugrep-3.12/bin/grep.
+[INFO] This might be different than expected because of symbolic links (for example, from /usr/bin/python to /usr/bin/python3 to /usr/bin/python3.8).
+[INFO] To pass the checks, the executable must be grep.
+
+[PASS] You have passed the checks on the process on the other end of my stderr!
+[PASS] Success! You have satisfied all execution requirements.
+pwn.college{0qoN90yuirYUlnxddQbzpBQv6Z9.QX1ATO0wiM1EjNwIzW}
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{0qoN90yuirYUlnxddQbzpBQv6Z9.QX1ATO0wiM1EjNwIzW}
 ```
 
 ### Notes:
 
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
+Learned how the file descriptor redirection operator (2>&1) can be used to merge stderr into stdout, enabling tools like grep to process error output through pipes.
 
 ***
 
-# Challenge 1: [Challenge Name]
+# Challenge 9: Filtering with grep -v
 
-[Challenge Description copied from pwn.college]
+The grep command has a very useful option: -v (invert match). While normal grep shows lines that MATCH a pattern, grep -v shows lines that do NOT match a pattern:
+
+```sh
+hacker@dojo:~$ cat data.txt
+hello hackers!
+hello world!
+hacker@dojo:~$ cat data.txt | grep -v world
+hello hackers!
+hacker@dojo:~$
+```
+
+Sometimes, the only way to filter to just the data you want is to filter out the data you don't want. In this challenge, /challenge/run will output the flag to stdout, but it will also output over 1000 decoy flags (containing the word DECOY somewhere in the flag) mixed in with the real flag. You'll need to filter out the decoys while keeping the real flag!
+
+Use grep -v to filter out all the lines containing "DECOY" and reveal the real flag!
 
 ## Solution:
 
-[Solution]
+Ran '/challenge/run | grep -v DECOY' to get the right flag.
 
 ```sh
-$ [Put Code/Bash Commands Here]
+hacker@piping~filtering-with-grep-v:~$ /challenge/run | grep -v DECOY
+pwn.college{kMyDUe-wiKg-hhmp_SmxXFM2UWM.0FOxEzNxwiM1EjNwIzW}
 ```
 
 ## Flag: 
 
 ```
-[Put Flag Here]
+pwn.college{kMyDUe-wiKg-hhmp_SmxXFM2UWM.0FOxEzNxwiM1EjNwIzW}
 ```
 
 ### Notes:
 
-- [Any Notes You Want To Make Regarding The Challenges]
-- [Any Thing You Learned From Solving The Challenge]
-
-### Resources:
-
-- [Any Resources You Used While Solving The Challenge]
-
+Learned how grep -v inverts pattern matching, allowing lines that do not match a given pattern to be selected.
 
 ***
 
-# Challenge 2: [Challenge Name]
+# Challenge 10: Filtering with sed 
 
-[Challenge Description copied from pwn.college]
+grep is not the only way to match patterns. Sometimes the real data and the garbage data are mixed in the same line, and we want to filter out the garbage. For that, we have sed. sed provides an easy way to substitute patterns in text with a different word. The syntax for matching and replacing is simple:
+
+```sh
+sed "s/oldword/newword/g"
+```
+
+s/ - substitute
+oldword - the word to replace
+newword - the replacement for oldword
+/g - global (search for all occurrences of the pattern)
+
+In this challenge, /challenge/run will print out the flag, but between each character there will be the string "FAKEFLAG". Your job is to filter out the garbage data from the flag. Good luck!
 
 ## Solution:
 
