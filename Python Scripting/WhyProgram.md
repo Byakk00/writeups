@@ -4,7 +4,7 @@ We learn why one might want to learn to program, and look at the basic issues wi
 
 ## References
 
-- https://www.py4e.com/lessons/intro (Slides and videos)
+- https://www.py4e.com/lessons/intro (Slides and Videos)
 - https://www.py4e.com/html3/01-intro (Theory)
 
 ## Notes
