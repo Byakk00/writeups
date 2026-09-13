@@ -1,4 +1,4 @@
-# Conditional Execution
+# Functions
 
 Take a brief look at how Python implements the 'store and use later' programming pattern.
 
