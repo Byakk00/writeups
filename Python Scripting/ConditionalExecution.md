@@ -58,7 +58,7 @@ Output: 498.75
 
 Updated the code with conditionals and input rate per hour to get the desired output.
 
-### Exercise 2.3
+### Exercise 3.3
 
 ```py
 score = float(input("Enter Score: "))
