@@ -44,11 +44,18 @@ print("Done")
 ### Exercise 7.2
 
 ```py
-text = "X-DSPAM-Confidence:    0.8475"
-pos = text.find(":")
-text = text[pos+1:]
-text = text.strip()
-print(float(text))
+# Use the file name mbox-short.txt as the file name
+fname = input("Enter file name: ")
+fh = open(fname)
+tot = 0
+count = 0
+for line in fh:
+    if not line.startswith("X-DSPAM-Confidence:"):
+        continue
+    words = line.split()
+    tot = tot + float(words[1])
+    count += 1
+print("Average spam confidence:", tot/count)
 ```
 
 Output:
