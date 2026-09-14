@@ -88,46 +88,81 @@ print("There were", count, "lines in the file with From as the first word")
 ### Exercise 8.4
 
 ```py
-# Use the file name mbox-short.txt as the file name
 fname = input("Enter file name: ")
-fh = open(fname)
-tot = 0
-count = 0
+try:
+    fh = open(fname)
+except:
+    print("File cannot be opened:", fname)
+    quit()
+
+lst = list()
+
 for line in fh:
-    if not line.startswith("X-DSPAM-Confidence:"):
-        continue
     words = line.split()
-    tot = tot + float(words[1])
-    count += 1
-print("Average spam confidence:", tot/count)
+    for word in words:
+        if word not in lst:
+            lst.append(word)
+lst.sort()
+print(lst)
 ```
 
 Output:
 
-Average spam confidence: 0.7507185185185187
+['Arise', 'But', 'It', 'Juliet', 'Who', 'already', 'and', 'breaks', 'east', 'envious', 'fair', 'grief', 'is', 'kill', 'light', 'moon', 'pale', 'sick', 'soft', 'sun', 'the', 'through', 'what', 'window', 'with', 'yonder']
 
 Updated the code to get the desired output.
 
 ### Exercise 8.5
 
 ```py
-# Use the file name mbox-short.txt as the file name
 fname = input("Enter file name: ")
+if len(fname) < 1:
+    fname = "mbox-short.txt"
+
 fh = open(fname)
-tot = 0
 count = 0
+
 for line in fh:
-    if not line.startswith("X-DSPAM-Confidence:"):
+    line = line.rstrip()
+    if not line.startswith('From '):
         continue
     words = line.split()
-    tot = tot + float(words[1])
+    print(words[1])
     count += 1
-print("Average spam confidence:", tot/count)
+
+print("There were", count, "lines in the file with From as the first word")
 ```
 
 Output:
 
-Average spam confidence: 0.7507185185185187
+stephen.marquard@uct.ac.za
+louis@media.berkeley.edu
+zqian@umich.edu
+rjlowe@iupui.edu
+zqian@umich.edu
+rjlowe@iupui.edu
+cwen@iupui.edu
+cwen@iupui.edu
+gsilver@umich.edu
+gsilver@umich.edu
+zqian@umich.edu
+gsilver@umich.edu
+wagnermr@iupui.edu
+zqian@umich.edu
+antranig@caret.cam.ac.uk
+gopal.ramasammycook@gmail.com
+david.horwitz@uct.ac.za
+david.horwitz@uct.ac.za
+david.horwitz@uct.ac.za
+david.horwitz@uct.ac.za
+stephen.marquard@uct.ac.za
+louis@media.berkeley.edu
+louis@media.berkeley.edu
+ray@media.berkeley.edu
+cwen@iupui.edu
+cwen@iupui.edu
+cwen@iupui.edu
+There were 27 lines in the file with From as the first word
 
 Updated the code to get the desired output.
 
