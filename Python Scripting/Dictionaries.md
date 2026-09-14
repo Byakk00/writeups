@@ -33,15 +33,37 @@ handle = open(name)
 ### Exercise 9.4
 
 ```py
+name = input("Enter file:")
+if len(name) < 1:
+    name = "mbox-short.txt"
+handle = open(name)
 
+counts = dict()
+
+for line in handle:
+    if not line.startswith('From '):
+        continue
+    words = line.split()
+    email = words[1]
+    counts[email] = counts.get(email, 0) + 1
+
+bigcount = None
+bigword = None
+
+for word, count in counts.items():
+    if bigcount is None or count > bigcount:
+        bigword = word
+        bigcount = count
+
+print(bigword, bigcount)
 ```
 
 Output:
 
 cwen@iupui.edu 5
 
-Updated the code with try, except and proper conditionals to get the desired output.
+Updated the code to add lines for things asked in question to get the desired output.
 
 ## Learning
 
-Learnt about loops, None, break and continue.
+Learnt about dictionaries.
