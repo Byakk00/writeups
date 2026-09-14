@@ -15,11 +15,28 @@ Just using reference material for this module especially the slide.
 
 ### Exercise 10.2
 
-Write a program to read through the mbox-short.txt and figure out who has sent the greatest number of mail messages. The program looks for 'From ' lines and takes the second word of those lines as the person who sent the mail. The program creates a Python dictionary that maps the sender's mail address to a count of the number of times they appear in the file. After the dictionary is produced, the program reads through the dictionary using a maximum loop to find the most prolific committer.
+Write a program to read through the mbox-short.txt and figure out the distribution by hour of the day for each of the messages. You can pull the hour out from the 'From ' line by finding the time and then splitting the string a second time using a colon.
+```
+From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008
+```
+Once you have accumulated the counts for each hour, print out the counts, sorted by hour as shown below.
 
 Desired Output:
 
-cwen@iupui.edu 5
+```
+04 3
+06 1
+07 1
+09 2
+10 3
+11 6
+14 1
+15 2
+16 4
+17 2
+18 1
+19 1
+```
 
 ```py
 name = input("Enter file:")
@@ -39,31 +56,37 @@ if len(name) < 1:
 handle = open(name)
 
 counts = dict()
-
 for line in handle:
-    if not line.startswith('From '):
+    if not line.startswith("From "):
         continue
     words = line.split()
-    email = words[1]
-    counts[email] = counts.get(email, 0) + 1
+    time = words[5]
+    hour = time.split(":")[0]
+    counts[hour] = counts.get(hour, 0) + 1
 
-bigcount = None
-bigword = None
-
-for word, count in counts.items():
-    if bigcount is None or count > bigcount:
-        bigword = word
-        bigcount = count
-
-print(bigword, bigcount)
+for hour, count in sorted(counts.items()):
+    print(hour, count)
 ```
 
 Output:
 
-cwen@iupui.edu 5
+```
+04 3
+06 1
+07 1
+09 2
+10 3
+11 6
+14 1
+15 2
+16 4
+17 2
+18 1
+19 1
+```
 
 Updated the code to add lines for things asked in question to get the desired output.
 
 ## Learning
 
-Learnt about dictionaries.
+Learnt about tuples.
