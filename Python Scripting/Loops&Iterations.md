@@ -20,7 +20,9 @@ Write a program that repeatedly prompts a user for integer numbers until the use
 Desired Output:
 
 Invalid input
+
 Maximum is 10
+
 Minimum is 2
 
 ```py
@@ -40,24 +42,41 @@ print("Maximum", largest)
 ### Exercise 5.2
 
 ```py
-def computepay(h, r):
-    if h<=40:
-        return h*r
-    else:
-        return (r*40)+((h-40)*r*1.5)
+largest = None
+smallest = None
 
-hrs = input("Enter Hours:")
-h = float(hrs)
-rph = input("Enter Rate")
-r = float(rph)
-p = computepay(h, r)
-print("Pay", p)
+while True:
+    num = input("Enter a number: ")
+    if num == "done":
+        break
+    try:
+        num = int(num)
+    except:
+        print("Invalid input")
+        continue
+    if largest is None and smallest is None:
+        largest = num
+        smallest = num
+    else:
+        if num > largest:
+            largest = num
+        if num < smallest:
+            smallest = num
+
+print("Maximum is", largest)
+print("Minimum is", smallest)
 ```
 
-Output: Pay 498.75
+Output:
 
-Updated the code to properly input rate per hour and hours, and take dynamic variables for computepay rather than hardcoded values, and declare computepay function to calculate pay as per the logic given to get the desired output.
+Invalid input
+
+Maximum is 10
+
+Minimum is 2
+
+Updated the code with try, except and proper conditionals to get the desired output.
 
 ## Learning
 
-Learnt about functions, arguments, parameters, void, and some examples of in-built functions like type conversion and max functions.
+Learnt about loops, None, break and continue.
