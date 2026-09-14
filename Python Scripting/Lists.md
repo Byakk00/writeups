@@ -1,0 +1,117 @@
+# Lists
+
+We look at Python's simplest data structure - the list. Lists can store more than one item in a variable.
+
+## References
+
+- https://www.py4e.com/lessons/lists (Slides and Videos)
+- https://www.py4e.com/html3/08-lists (Theory)
+
+## Notes
+
+Just using reference material for this module especially the slide.
+
+## Autograder:
+
+### Exercise 8.4
+
+Write a program that prompts for a file name, then opens that file and reads through the file, looking for lines of the form:
+  
+```
+X-DSPAM-Confidence:    0.8475
+```
+  
+Count these lines and extract the floating point values from each of the lines and compute the average of those values and produce an output as shown below. Do not use the sum() function or a variable named sum in your solution.
+You can download the sample data at http://www.py4e.com/code3/mbox-short.txt when you are testing below enter mbox-short.txt as the file name.
+  
+Desired Output:
+
+Average spam confidence: 0.7507185185185187
+
+```py
+# Use the file name mbox-short.txt as the file name
+fname = input("Enter file name: ")
+fh = open(fname)
+for line in fh:
+    if not line.startswith("X-DSPAM-Confidence:"):
+        continue
+    print(line)
+print("Done")
+```
+### Exercise 8.5
+
+Write a program that prompts for a file name, then opens that file and reads through the file, looking for lines of the form:
+  
+```
+X-DSPAM-Confidence:    0.8475
+```
+  
+Count these lines and extract the floating point values from each of the lines and compute the average of those values and produce an output as shown below. Do not use the sum() function or a variable named sum in your solution.
+You can download the sample data at http://www.py4e.com/code3/mbox-short.txt when you are testing below enter mbox-short.txt as the file name.
+  
+Desired Output:
+
+Average spam confidence: 0.7507185185185187
+
+```py
+# Use the file name mbox-short.txt as the file name
+fname = input("Enter file name: ")
+fh = open(fname)
+for line in fh:
+    if not line.startswith("X-DSPAM-Confidence:"):
+        continue
+    print(line)
+print("Done")
+```
+
+## Solution
+
+### Exercise 8.4
+
+```py
+# Use the file name mbox-short.txt as the file name
+fname = input("Enter file name: ")
+fh = open(fname)
+tot = 0
+count = 0
+for line in fh:
+    if not line.startswith("X-DSPAM-Confidence:"):
+        continue
+    words = line.split()
+    tot = tot + float(words[1])
+    count += 1
+print("Average spam confidence:", tot/count)
+```
+
+Output:
+
+Average spam confidence: 0.7507185185185187
+
+Updated the code to get the desired output.
+
+### Exercise 8.5
+
+```py
+# Use the file name mbox-short.txt as the file name
+fname = input("Enter file name: ")
+fh = open(fname)
+tot = 0
+count = 0
+for line in fh:
+    if not line.startswith("X-DSPAM-Confidence:"):
+        continue
+    words = line.split()
+    tot = tot + float(words[1])
+    count += 1
+print("Average spam confidence:", tot/count)
+```
+
+Output:
+
+Average spam confidence: 0.7507185185185187
+
+Updated the code to get the desired output.
+
+## Learning
+
+Learnt about files and operations on it.
